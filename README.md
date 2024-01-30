@@ -5,7 +5,7 @@
 • Sai Krishna Manthena: https://github.sfu.ca/skm32
 • Gitanshu: https://github.sfu.ca/gga52
 
-The dashboard can be accessed using following credentials
+The dashboard can be accessed using following credentials:
 ```credentials
 URL: https://bidgata1.grafana.net/goto/Mc0lXqHSR?orgId=1
 username: gga52@sfu.ca
