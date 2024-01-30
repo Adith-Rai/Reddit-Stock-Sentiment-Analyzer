@@ -1,0 +1,23 @@
+{
+"REDDIT_CLIENT_ID" : "<redacted>",
+"REDDIT_SECRET_ID" : "<redacted>",
+"USER_AGENT" : "final-project-text-analysis:college-student",
+
+"KAFKA_BROKER" : ["<redacted>"],
+"KAFKA_TOPIC" : "stock-price-discussions",
+
+"data_time_frame" : 240,
+"S3_DUMP" : "s3://big-data-final-project/reddit-data/",
+
+"OPENAI_API_KEY" : "<redacted>",
+"OPENAI_MODEL_NAME" : "gpt-3.5-turbo",
+"TEMPERATURE" : 0,
+"MAX_TOKENS" : 1000,
+
+"INPUT_ENVELOPE" : "```",
+"NEWLINE_DELIMETER" : "#########",
+
+"AWS_ACCESS_KEY_ID":"<redacted>",
+"AWS_SECRET_ACCESS_KEY":"<redacted>",
+"REGION_NAME":"us-east-2"
+}

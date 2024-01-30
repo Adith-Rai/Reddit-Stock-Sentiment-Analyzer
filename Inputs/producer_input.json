@@ -1,0 +1,6 @@
+{
+  "subreddit": ["StockMarket","investing","stocks","wallstreetbets","pennystocks","Daytrading","RobinHood","Trading","Stock_Picks"],
+  "sorting": ["hot"],
+  "post_limit" : 100,
+  "comment_depth" : 1
+}

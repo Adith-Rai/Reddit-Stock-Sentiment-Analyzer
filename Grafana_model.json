@@ -1,0 +1,522 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Score 1 = Stock will go up (High)\nScore 0 = Stock will be same (Neutral)\nScore -1 = Stock will go down (Low)",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 37,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "title": "Score 1 = Stock will go up (High)",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 5,
+      "panels": [],
+      "title": "Score 0 = Stock will be same (Neutral)",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 4,
+      "panels": [],
+      "title": "Score -1 = Stock will go down (Low) ",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "c16dd1b4-9c26-4166-82c9-e96b6969e6f1"
+      },
+      "description": "Score 1 = Stock will go up (High)\nScore 0 = Stock will be same (Neutral)\nScore -1 = Stock will go down (Low)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": true,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "Stock Price",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "yellow",
+                  "index": 2
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "from": -1,
+                "result": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "-1"
+                },
+                "to": 0
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 0,
+                "result": {
+                  "color": "green",
+                  "index": 1,
+                  "text": "1"
+                },
+                "to": 1
+              },
+              "type": "range"
+            }
+          ],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 3,
+      "links": [],
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.24,
+        "colorByField": "sentiment_inference",
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "width": 10
+        },
+        "orientation": "auto",
+        "showValue": "never",
+        "stacking": "normal",
+        "text": {},
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Stock_date",
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "c16dd1b4-9c26-4166-82c9-e96b6969e6f1"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "project": "panoply-b19-9e8056de8e7a",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  FORMAT_DATE('%Y-%m-%d', date) AS Stock_date,\n  (SUM(CAST(closing_price AS FLOAT64)) / COUNT(closing_price)) AS Closing_Price,\n  (SUM(sentiment_inference) / COUNT(sentiment_inference) )  sentiment_inference\nFROM\n  `panoply-b19-9e8056de8e7a.panoply.dynamo_tbl_redditstocksentiment`\nWHERE\n  stock_ticker = '$Stock_Name'\nGROUP BY\n  Stock_date\nORDER BY\n  Stock_date",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Sentiment to Stock Price ",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "c16dd1b4-9c26-4166-82c9-e96b6969e6f1"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 1,
+      "maxPerRow": 2,
+      "options": {
+        "ReferenceLines": [],
+        "border": {
+          "color": "#F2495C",
+          "size": 2
+        },
+        "fieldSets": [
+          {
+            "col": 1,
+            "color": "#2dabce",
+            "colorCol": -1,
+            "dotSize": 2,
+            "hidden": false,
+            "lineSize": 3,
+            "lineType": "simple",
+            "polynomialOrder": 3,
+            "sizeCol": -3
+          },
+          {
+            "col": -1,
+            "color": "#10a040",
+            "colorCol": -1,
+            "dotSize": 2,
+            "hidden": false,
+            "lineSize": 1,
+            "lineType": "none",
+            "polynomialOrder": 3,
+            "sizeCol": -1
+          }
+        ],
+        "grid": {
+          "color": "#FF780A"
+        },
+        "label": {
+          "col": 0,
+          "color": "#FADE2A",
+          "textSize": 2
+        },
+        "legend": {
+          "show": false,
+          "size": 0
+        },
+        "xAxis": {
+          "col": 0,
+          "inverted": false
+        },
+        "xAxisExtents": {
+          "min": null,
+          "max": 28
+        },
+        "xAxisTitle": {
+          "text": "Date",
+          "color": "#FF9830",
+          "textSize": 1,
+          "rotated": false,
+          "logScale": false,
+          "fontSize": 3,
+          "fontColor": "#DEB6F2"
+        },
+        "xMargins": {
+          "lower": 30,
+          "upper": null
+        },
+        "yAxisExtents": {
+          "min": null,
+          "max": null
+        },
+        "yAxisTitle": {
+          "text": "Closing Price",
+          "color": "#FF9830",
+          "textSize": 1,
+          "rotated": true,
+          "logScale": true,
+          "fontSize": 3,
+          "fontColor": "#FADE2A"
+        },
+        "yMargins": {
+          "lower": 20,
+          "upper": null
+        }
+      },
+      "pluginVersion": "10.3.0-63588",
+      "repeat": "Stock_Name",
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "dataset": "panoply",
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "c16dd1b4-9c26-4166-82c9-e96b6969e6f1"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "project": "panoply-b19-9e8056de8e7a",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  FORMAT_DATE('%Y-%m-%d', date) AS Stock_date,\n  (SUM(CAST(closing_price AS FLOAT64)) / COUNT(closing_price)) AS Closing_Price,\n  CASE\n    WHEN (SUM(sentiment_inference) / COUNT(sentiment_inference) > 0) THEN \"POSITIVE\"\n    WHEN (SUM(sentiment_inference) / COUNT(sentiment_inference) < 0) THEN \"NEGATIVE\"\n    ELSE \"NEUTRAL\"\n  END AS sentiment_inference\nFROM\n  `panoply-b19-9e8056de8e7a.panoply.dynamo_tbl_redditstocksentiment`\nWHERE\n  stock_ticker = '$Stock_Name'\nGROUP BY\n  Stock_date\nORDER BY\n  Stock_date",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "date",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "closing_price",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "dynamo_stock_price"
+        }
+      ],
+      "title": "Accurate Stock Price",
+      "type": "michaeldmoore-scatter-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "c16dd1b4-9c26-4166-82c9-e96b6969e6f1"
+      },
+      "description": "Score 1 = Stock will go up (High)\nScore 0 = Stock will be same (Neutral)\nScore -1 = Stock will go down (Low)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 1.1,
+          "min": -1.1,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 52
+      },
+      "id": 2,
+      "options": {
+        "minVizHeight": 0,
+        "minVizWidth": 200,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "manual"
+      },
+      "pluginVersion": "10.3.0-63588",
+      "targets": [
+        {
+          "dataset": "panoply",
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "c16dd1b4-9c26-4166-82c9-e96b6969e6f1"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "project": "panoply-b19-9e8056de8e7a",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  (SUM(sentiment_inference) / (\n    SELECT COUNT(sentiment_inference)\n    FROM `panoply-b19-9e8056de8e7a.panoply.dynamo_tbl_redditstocksentiment`\n    WHERE stock_ticker = '$Stock_Name'\n  )) AS sentiment_inference\nFROM `panoply-b19-9e8056de8e7a.panoply.dynamo_tbl_redditstocksentiment`\nWHERE stock_ticker = '$Stock_Name';",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "sentiment_inference",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "dynamo_stock_price"
+        }
+      ],
+      "title": "Sentiment Inference Score ",
+      "type": "gauge"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "T",
+          "value": "T"
+        },
+        "datasource": {
+          "type": "grafana-bigquery-datasource",
+          "uid": "c16dd1b4-9c26-4166-82c9-e96b6969e6f1"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "Stock_Name",
+        "options": [],
+        "query": {
+          "dataset": "panoply",
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "project": "panoply-b19-9e8056de8e7a",
+          "rawQuery": true,
+          "rawSql": "SELECT distinct stock_ticker FROM `panoply-b19-9e8056de8e7a.panoply.dynamo_tbl_redditstocksentiment`",
+          "refId": "tempvar",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "stock_ticker",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "dynamo_stock_price"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2023-12-04T22:25:16.355Z",
+    "to": "2023-12-05T04:25:16.356Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "STOCK DATA",
+  "uid": "dab18ea8-49ac-490b-9471-0a02f6a0f5c1",
+  "version": 2,
+  "weekStart": ""
+}
