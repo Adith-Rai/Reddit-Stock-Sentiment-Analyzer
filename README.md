@@ -1,12 +1,16 @@
-# Impact of Social Media sentiment on Stock Market
+# Impact of Reddit sentiment on Stock Market
 
-## Team Members
-• Sai Krishna Manthena: 301584924
-• Adith Rai: 301560965
-• Gitanshu: 301588073
+## Contributers
+• Adith Rai: (Myself)
+• Sai Krishna Manthena: https://github.sfu.ca/skm32
+• Gitanshu: https://github.sfu.ca/gga52
 
-## Team Name
-**Big Data Triumvirate**
+The dashboard can be accessed using following credentials
+```credentials
+URL: https://bidgata1.grafana.net/goto/Mc0lXqHSR?orgId=1
+username: gga52@sfu.ca
+password: bigdatalab1
+```
 ![architecture diagram](documentation/images/architecture.png)
 
 ## Introduction
